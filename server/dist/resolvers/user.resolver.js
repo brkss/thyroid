@@ -25,7 +25,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
-const default_response_1 = require("../helpers/inputs/responses/default.response");
+const default_response_1 = require("../helpers/responses/default.response");
 const user_input_1 = require("../helpers/inputs/user.input");
 const type_graphql_1 = require("type-graphql");
 const User_1 = require("../entity/User");
@@ -33,6 +33,40 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 let UserResolver = class UserResolver {
     hello() {
         return 'hi!!';
+    }
+    login(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!data.identifier) {
+                return {
+                    status: false,
+                    message: 'Invalid Email/Phone'
+                };
+            }
+            if (!data.password) {
+                return {
+                    status: false,
+                    message: 'Invalid password'
+                };
+            }
+            const user = yield User_1.User.findOne({ where: [{ email: data.identifier }, { phone: data.identifier }] });
+            if (!user) {
+                return {
+                    status: false,
+                    message: 'Invalid Email/Phone'
+                };
+            }
+            const verify = yield bcrypt_1.default.compare(data.password, user.password);
+            if (!verify) {
+                return {
+                    status: false,
+                    message: 'Incorrect password!'
+                };
+            }
+            return {
+                status: true,
+                message: 'logged successfuly'
+            };
+        });
     }
     register(data) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -75,6 +109,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "hello", null);
+__decorate([
+    type_graphql_1.Mutation(() => default_response_1.DefaultResponse),
+    __param(0, type_graphql_1.Arg('data')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_input_1.LoginUserInput]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "login", null);
 __decorate([
     type_graphql_1.Mutation(() => default_response_1.DefaultResponse),
     __param(0, type_graphql_1.Arg('data')),

@@ -15,5 +15,15 @@ export class RegisterUserInput {
     @Field(() => String)
     password: string;
 
+}
+
+@InputType()
+export class LoginUserInput {
+
+    @Field(() => String)
+    identifier: string;
+
+    @Field(() => String)
+    password: string;
 
 }

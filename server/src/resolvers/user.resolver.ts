@@ -1,5 +1,5 @@
-import { DefaultResponse } from '../helpers/inputs/responses/default.response';
-import { RegisterUserInput } from '../helpers/inputs/user.input';
+import { DefaultResponse } from '../helpers/responses/default.response';
+import { LoginUserInput, RegisterUserInput } from '../helpers/inputs/user.input';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { User } from '../entity/User';
 import bcrypt from 'bcrypt';
@@ -10,6 +10,45 @@ export class UserResolver {
     @Query(() => String)
     hello(){
         return 'hi!!'
+    }
+
+    @Mutation(() => DefaultResponse)
+    async login(@Arg('data') data : LoginUserInput ) : Promise<DefaultResponse>{
+        
+        if(!data.identifier){
+            return {
+                status: false,
+                message: 'Invalid Email/Phone'
+            }
+        }
+        if(!data.password){
+            return {
+                status: false,
+                message: 'Invalid password'
+            }
+        }
+
+        const user = await User.findOne({where: [{email: data.identifier}, {phone: data.identifier}]});
+        if(!user){
+            return {
+                status: false,
+                message: 'Invalid Email/Phone'
+            }
+        }
+        const verify = await bcrypt.compare(data.password, user.password);
+        if(!verify){
+            return {
+                status: false,
+                message: 'Incorrect password!'
+            }
+        }
+
+        // successfuly logged in
+
+        return {
+            status: true,
+            message: 'logged successfuly'
+        }
     }
 
     @Mutation(() => DefaultResponse)
