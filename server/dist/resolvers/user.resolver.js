@@ -32,9 +32,13 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const auth_response_1 = require("../helpers/responses/auth.response");
 const token_1 = require("../helpers/functions/user/token");
 const sendRefreshToken_1 = require("../helpers/functions/user/sendRefreshToken");
+const auth_mw_1 = require("../helpers/middlewares/auth.mw");
 let UserResolver = class UserResolver {
     hello() {
         return 'hi!!';
+    }
+    me(ctx) {
+        return `user => ${ctx.payload.userId}`;
     }
     login(data, { res }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -110,6 +114,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "hello", null);
+__decorate([
+    type_graphql_1.Query(() => String),
+    type_graphql_1.UseMiddleware(auth_mw_1.isUserAuth),
+    __param(0, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserResolver.prototype, "me", null);
 __decorate([
     type_graphql_1.Mutation(() => auth_response_1.AuthResponse),
     __param(0, type_graphql_1.Arg('data')), __param(1, type_graphql_1.Ctx()),

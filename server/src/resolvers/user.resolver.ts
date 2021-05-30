@@ -1,11 +1,12 @@
 import { LoginUserInput, RegisterUserInput } from '../helpers/inputs/user.input';
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { User } from '../entity/User';
 import bcrypt from 'bcrypt';
 import { AuthResponse } from '../helpers/responses/auth.response';
 import { createUserAccessToken, createUserRefreshToken } from '../helpers/functions/user/token';
 import { MyContext } from '../helpers/types/Context';
 import { sendRefreshToken } from '../helpers/functions/user/sendRefreshToken';
+import { isUserAuth } from '../helpers/middlewares/auth.mw';
 
 @Resolver()
 export class UserResolver {
@@ -13,6 +14,12 @@ export class UserResolver {
     @Query(() => String)
     hello(){
         return 'hi!!'
+    }
+
+    @Query(() => String)
+    @UseMiddleware(isUserAuth)
+    me(@Ctx() ctx : MyContext){
+        return `user => ${ctx.payload.userId}`
     }
 
     @Mutation(() => AuthResponse)
