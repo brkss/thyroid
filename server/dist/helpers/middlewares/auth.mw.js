@@ -16,7 +16,6 @@ const isUserAuth = ({ context }, next) => {
         context.payload = payload;
     }
     catch (e) {
-        console.log('middleware invalid token error => ', e);
         throw new Error('Invalid token');
     }
     return next();

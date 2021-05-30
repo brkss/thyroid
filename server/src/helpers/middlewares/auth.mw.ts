@@ -18,7 +18,7 @@ export const isUserAuth : MiddlewareFn<MyContext> = ({context}, next) => {
         const payload = verify(token, process.env.USER_ACCESS_TOKEN_SECRET!);
         context.payload = payload;
     }catch(e){
-        console.log('middleware invalid token error => ', e);
+        //console.log('middleware invalid token error => ', e);
         throw new Error('Invalid token')
     }
 

@@ -5,7 +5,7 @@ import {createConnection} from "typeorm";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from 'type-graphql';
 import { UserResolver } from "./resolvers/user.resolver";
-
+import cookieParser from 'cookie-parser';
 
 (async () => {
 
@@ -13,20 +13,29 @@ import { UserResolver } from "./resolvers/user.resolver";
     await createConnection();
     
     const app = express();
+    app.use(cookieParser());
+
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
             resolvers: [UserResolver],
+            validate: true
         }),
         context: ({req, res}) => ({req, res}) 
     });
  
-    
-
     apolloServer.applyMiddleware({app});
 
     app.get('/', (_, res) => {
         res.send('hello world from express');
     });
+
+    app.post('/refresh_user_token', (req, res) => {
+        const token = req.cookies.ujid;
+        console.log('cookies => ', req);
+        return res.send(`refresh token => ${token}`); 
+        
+    });
+
     app.listen(4000, () => {
         console.log('server started at http://127.0.0.1:4000 ');
     })

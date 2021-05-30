@@ -19,18 +19,26 @@ const typeorm_1 = require("typeorm");
 const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
 const user_resolver_1 = require("./resolvers/user.resolver");
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield typeorm_1.createConnection();
     const app = express_1.default();
+    app.use(cookie_parser_1.default());
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: yield type_graphql_1.buildSchema({
             resolvers: [user_resolver_1.UserResolver],
+            validate: true
         }),
         context: ({ req, res }) => ({ req, res })
     });
     apolloServer.applyMiddleware({ app });
     app.get('/', (_, res) => {
         res.send('hello world from express');
+    });
+    app.post('/refresh_user_token', (req, res) => {
+        const token = req.cookies.ujid;
+        console.log('cookies => ', req);
+        return res.send(`refresh token => ${token}`);
     });
     app.listen(4000, () => {
         console.log('server started at http://127.0.0.1:4000 ');
