@@ -20,6 +20,7 @@ const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
 const user_resolver_1 = require("./resolvers/user.resolver");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const refreshToken_1 = require("./helpers/functions/user/refreshToken");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield typeorm_1.createConnection();
     const app = express_1.default();
@@ -35,11 +36,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
     app.get('/', (_, res) => {
         res.send('hello world from express');
     });
-    app.post('/refresh_user_token', (req, res) => {
-        const token = req.cookies.ujid;
-        console.log('cookies => ', req);
-        return res.send(`refresh token => ${token}`);
-    });
+    app.post('/refresh_user_token', (req, res) => __awaiter(void 0, void 0, void 0, function* () { return yield refreshToken_1.refreshUserToken(req, res); }));
     app.listen(4000, () => {
         console.log('server started at http://127.0.0.1:4000 ');
     });

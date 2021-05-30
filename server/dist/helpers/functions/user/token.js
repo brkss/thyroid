@@ -14,6 +14,7 @@ exports.createUserAccessToken = createUserAccessToken;
 const createUserRefreshToken = (user) => {
     const token = jsonwebtoken_1.sign({
         userId: user.id,
+        tokenVersion: user.tokenVersion
     }, process.env.USER_REFRESH_TOKEN_SECRET, {
         expiresIn: '7d'
     });

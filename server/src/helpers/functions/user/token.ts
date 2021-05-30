@@ -20,6 +20,7 @@ export const createUserRefreshToken = (user: User) : string => {
     // 
     const token = sign({
         userId: user.id,
+        tokenVersion: user.tokenVersion
     }, process.env.USER_REFRESH_TOKEN_SECRET!, {
         expiresIn: '7d'
     });
