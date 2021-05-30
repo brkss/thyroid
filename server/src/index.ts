@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import "reflect-metadata";
 import express from 'express';
 import {createConnection} from "typeorm";
@@ -8,6 +9,7 @@ import { UserResolver } from "./resolvers/user.resolver";
 
 (async () => {
 
+    
     await createConnection();
     
     const app = express();
@@ -16,6 +18,8 @@ import { UserResolver } from "./resolvers/user.resolver";
             resolvers: [UserResolver],
         })
     });
+ 
+    
 
     apolloServer.applyMiddleware({app});
 

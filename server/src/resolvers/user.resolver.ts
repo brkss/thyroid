@@ -45,7 +45,6 @@ export class UserResolver {
 
         // successfuly logged in
 
-
         return {
             status: true,
             accessToken: 'lsdfjksdfjlkds'
