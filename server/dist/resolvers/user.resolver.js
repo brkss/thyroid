@@ -25,11 +25,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
-const default_response_1 = require("../helpers/responses/default.response");
 const user_input_1 = require("../helpers/inputs/user.input");
 const type_graphql_1 = require("type-graphql");
 const User_1 = require("../entity/User");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const auth_response_1 = require("../helpers/responses/auth.response");
 let UserResolver = class UserResolver {
     hello() {
         return 'hi!!';
@@ -64,7 +64,7 @@ let UserResolver = class UserResolver {
             }
             return {
                 status: true,
-                message: 'logged successfuly'
+                accessToken: 'lsdfjksdfjlkds'
             };
         });
     }
@@ -86,7 +86,7 @@ let UserResolver = class UserResolver {
                 });
                 return {
                     status: true,
-                    message: 'user created successfuly'
+                    accessToken: 'lsfjlkdjflkdsjfsd'
                 };
             }
             catch (e) {
@@ -96,10 +96,6 @@ let UserResolver = class UserResolver {
                     message: 'Something went wrong creating your account!'
                 };
             }
-            return {
-                status: true,
-                message: 'User created successfuly!'
-            };
         });
     }
 };
@@ -110,14 +106,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "hello", null);
 __decorate([
-    type_graphql_1.Mutation(() => default_response_1.DefaultResponse),
+    type_graphql_1.Mutation(() => auth_response_1.AuthResponse),
     __param(0, type_graphql_1.Arg('data')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_input_1.LoginUserInput]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "login", null);
 __decorate([
-    type_graphql_1.Mutation(() => default_response_1.DefaultResponse),
+    type_graphql_1.Mutation(() => auth_response_1.AuthResponse),
     __param(0, type_graphql_1.Arg('data')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_input_1.RegisterUserInput]),

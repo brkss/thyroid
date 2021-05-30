@@ -1,8 +1,8 @@
-import { DefaultResponse } from '../helpers/responses/default.response';
 import { LoginUserInput, RegisterUserInput } from '../helpers/inputs/user.input';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { User } from '../entity/User';
 import bcrypt from 'bcrypt';
+import { AuthResponse } from '../helpers/responses/auth.response';
 
 @Resolver()
 export class UserResolver {
@@ -12,8 +12,8 @@ export class UserResolver {
         return 'hi!!'
     }
 
-    @Mutation(() => DefaultResponse)
-    async login(@Arg('data') data : LoginUserInput ) : Promise<DefaultResponse>{
+    @Mutation(() => AuthResponse)
+    async login(@Arg('data') data : LoginUserInput ) : Promise<AuthResponse>{
         
         if(!data.identifier){
             return {
@@ -45,14 +45,15 @@ export class UserResolver {
 
         // successfuly logged in
 
+
         return {
             status: true,
-            message: 'logged successfuly'
+            accessToken: 'lsdfjksdfjlkds'
         }
     }
 
-    @Mutation(() => DefaultResponse)
-    async register(@Arg('data') data : RegisterUserInput ) : Promise<DefaultResponse>{
+    @Mutation(() => AuthResponse)
+    async register(@Arg('data') data : RegisterUserInput ) : Promise<AuthResponse>{
         // validate 
         if(!data.name || !data.email || !data.phone || !data.password){
             return {
@@ -71,7 +72,7 @@ export class UserResolver {
             });
             return {
                 status: true,
-                message: 'user created successfuly'
+                accessToken: 'lsfjlkdjflkdsjfsd'
             }
 
         }catch(e){
@@ -81,12 +82,6 @@ export class UserResolver {
                 message: 'Something went wrong creating your account!'
             }
         }
-
-        return {
-            status: true,
-            message: 'User created successfuly!'
-        }
-
 
     }
 
