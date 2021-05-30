@@ -22,13 +22,13 @@ import {
         bg={useColorModeValue('gray.50', 'gray.800')}>
         <Stack spacing={8} mx={'auto'} maxW={'lg'} w='lg' py={12} px={6}>
           <Stack align={'center'}>
-            <Heading  d='block'  fontSize={'3xl'}>Sign up for a new account </Heading>
+            <Heading   fontSize={'3xl'}>Sign up for a new account </Heading>
             <Text fontSize={'lg'} color={'gray.600'}>
               to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
             </Text>
           </Stack>
           <Box
-            w='100%' maxWidth={650}
+            
             rounded={'lg'}
             bg={useColorModeValue('white', 'gray.700')}
             boxShadow={'lg'}
