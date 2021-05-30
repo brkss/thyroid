@@ -20,7 +20,7 @@ export const refreshUserToken = async (req: Request, res: Response) => {
         return res.send({
             status: false,
             accessToken: ''
-        })
+        });
     }
     // valid token
     const user = await User.findOne({where: {id: payload.userId}});
