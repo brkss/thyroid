@@ -30,11 +30,13 @@ const type_graphql_1 = require("type-graphql");
 const User_1 = require("../entity/User");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const auth_response_1 = require("../helpers/responses/auth.response");
+const token_1 = require("../helpers/functions/user/token");
+const sendRefreshToken_1 = require("../helpers/functions/user/sendRefreshToken");
 let UserResolver = class UserResolver {
     hello() {
         return 'hi!!';
     }
-    login(data) {
+    login(data, { res }) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!data.identifier) {
                 return {
@@ -62,13 +64,14 @@ let UserResolver = class UserResolver {
                     message: 'Incorrect password!'
                 };
             }
+            sendRefreshToken_1.sendRefreshToken(res, token_1.createUserRefreshToken(user));
             return {
                 status: true,
-                accessToken: 'lsdfjksdfjlkds'
+                accessToken: token_1.createUserAccessToken(user)
             };
         });
     }
-    register(data) {
+    register(data, { res }) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!data.name || !data.email || !data.phone || !data.password) {
                 return {
@@ -84,9 +87,11 @@ let UserResolver = class UserResolver {
                     phone: data.phone,
                     password: hashedPassword
                 });
+                const user = yield User_1.User.findOne({ where: { email: data.email } });
+                sendRefreshToken_1.sendRefreshToken(res, token_1.createUserRefreshToken(user));
                 return {
                     status: true,
-                    accessToken: 'lsfjlkdjflkdsjfsd'
+                    accessToken: token_1.createUserAccessToken(user)
                 };
             }
             catch (e) {
@@ -107,16 +112,16 @@ __decorate([
 ], UserResolver.prototype, "hello", null);
 __decorate([
     type_graphql_1.Mutation(() => auth_response_1.AuthResponse),
-    __param(0, type_graphql_1.Arg('data')),
+    __param(0, type_graphql_1.Arg('data')), __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_input_1.LoginUserInput]),
+    __metadata("design:paramtypes", [user_input_1.LoginUserInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "login", null);
 __decorate([
     type_graphql_1.Mutation(() => auth_response_1.AuthResponse),
-    __param(0, type_graphql_1.Arg('data')),
+    __param(0, type_graphql_1.Arg('data')), __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_input_1.RegisterUserInput]),
+    __metadata("design:paramtypes", [user_input_1.RegisterUserInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "register", null);
 UserResolver = __decorate([

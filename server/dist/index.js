@@ -25,7 +25,8 @@ const user_resolver_1 = require("./resolvers/user.resolver");
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: yield type_graphql_1.buildSchema({
             resolvers: [user_resolver_1.UserResolver],
-        })
+        }),
+        context: ({ req, res }) => ({ req, res })
     });
     apolloServer.applyMiddleware({ app });
     app.get('/', (_, res) => {

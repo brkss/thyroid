@@ -1,8 +1,11 @@
 import { LoginUserInput, RegisterUserInput } from '../helpers/inputs/user.input';
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { User } from '../entity/User';
 import bcrypt from 'bcrypt';
 import { AuthResponse } from '../helpers/responses/auth.response';
+import { createUserAccessToken, createUserRefreshToken } from '../helpers/functions/user/token';
+import { MyContext } from '../helpers/types/Context';
+import { sendRefreshToken } from '../helpers/functions/user/sendRefreshToken';
 
 @Resolver()
 export class UserResolver {
@@ -13,7 +16,7 @@ export class UserResolver {
     }
 
     @Mutation(() => AuthResponse)
-    async login(@Arg('data') data : LoginUserInput ) : Promise<AuthResponse>{
+    async login(@Arg('data') data : LoginUserInput, @Ctx() {res} : MyContext ) : Promise<AuthResponse>{
         
         if(!data.identifier){
             return {
@@ -45,14 +48,15 @@ export class UserResolver {
 
         // successfuly logged in
 
+        sendRefreshToken(res, createUserRefreshToken(user));
         return {
             status: true,
-            accessToken: 'lsdfjksdfjlkds'
+            accessToken: createUserAccessToken(user)
         }
     }
 
     @Mutation(() => AuthResponse)
-    async register(@Arg('data') data : RegisterUserInput ) : Promise<AuthResponse>{
+    async register(@Arg('data') data : RegisterUserInput, @Ctx() {res} : MyContext ) : Promise<AuthResponse>{
         // validate 
         if(!data.name || !data.email || !data.phone || !data.password){
             return {
@@ -69,9 +73,11 @@ export class UserResolver {
                 phone: data.phone,
                 password: hashedPassword
             });
+            const user = await User.findOne({where: {email: data.email}});
+            sendRefreshToken(res, createUserRefreshToken(user!));
             return {
                 status: true,
-                accessToken: 'lsfjlkdjflkdsjfsd'
+                accessToken: createUserAccessToken(user!)
             }
 
         }catch(e){
