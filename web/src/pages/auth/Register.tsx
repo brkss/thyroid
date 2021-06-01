@@ -13,10 +13,12 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { useRegisterMutation } from '../../generated/graphql';
+import { SetToken } from '../../helpers/constants/token';
 
-export const RegisterPage : React.FC = () => {
+export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
 
 
   const [form, SetForm] = React.useState<any>();
@@ -62,6 +64,8 @@ export const RegisterPage : React.FC = () => {
       SetLoading(false);
       if(res.data?.register.status === true){
         console.log('registered successfuly');
+        SetToken(res.data.register.accessToken!);
+        history.push('/');
       }else if(res.data?.register.status === false){
         console.log("error status is false")
         SetError(res.data!.register.message!);
