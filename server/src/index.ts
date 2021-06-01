@@ -7,6 +7,7 @@ import { buildSchema } from 'type-graphql';
 import { UserResolver } from "./resolvers/user.resolver";
 import cookieParser from 'cookie-parser';
 import { refreshUserToken } from './helpers/functions/user/refreshToken';
+import cors from 'cors';
 
 (async () => {
 
@@ -14,6 +15,10 @@ import { refreshUserToken } from './helpers/functions/user/refreshToken';
     await createConnection();
     
     const app = express();
+    app.use(cors({
+        credentials: true,
+        origin: 'http://localhost:3000'
+    }));
     app.use(cookieParser());
 
     const apolloServer = new ApolloServer({
@@ -24,7 +29,7 @@ import { refreshUserToken } from './helpers/functions/user/refreshToken';
         context: ({req, res}) => ({req, res}) 
     });
  
-    apolloServer.applyMiddleware({app});
+    apolloServer.applyMiddleware({app, cors: false});
 
     app.get('/', (_, res) => {
         res.send('hello world from express');
