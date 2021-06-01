@@ -100,6 +100,12 @@ let UserResolver = class UserResolver {
             }
             catch (e) {
                 console.log('error creatin user => ', e);
+                if (e.code === "ER_DUP_ENTRY") {
+                    return {
+                        status: false,
+                        message: "Phone or email already exist!"
+                    };
+                }
                 return {
                     status: false,
                     message: 'Something went wrong creating your account!'
