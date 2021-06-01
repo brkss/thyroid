@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
+    "@chakra-ui/icons": "^1.0.13",
     "@chakra-ui/react": "^1.6.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
@@ -52,12 +53,12 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "1.21.5",
+    "@graphql-codegen/typescript": "1.22.1",
+    "@graphql-codegen/typescript-graphql-files-modules": "1.18.1",
+    "@graphql-codegen/typescript-operations": "1.18.0",
+    "@graphql-codegen/typescript-react-apollo": "2.2.5",
     "@types/graphql": "^14.5.0",
     "@types/react-router-dom": "^5.1.7",
-    "@types/styled-components": "^5.1.9",
-    "@graphql-codegen/typescript": "1.22.1",
-    "@graphql-codegen/typescript-operations": "1.18.0",
-    "@graphql-codegen/typescript-graphql-files-modules": "1.18.1",
-    "@graphql-codegen/typescript-react-apollo": "2.2.5"
+    "@types/styled-components": "^5.1.9"
   }
 }
