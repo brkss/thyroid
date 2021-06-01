@@ -10,13 +10,14 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { useLoginMutation } from '../../generated/graphql';
-import { SetAccessToken } from '../../helpers/constants/token';
+import { getAccessToken, SetAccessToken } from '../../helpers/constants/token';
+import { DEFAULT_REDIR_AUTH } from '../../helpers/constants/defaults';
 
 export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
 
@@ -32,6 +33,10 @@ export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
         ...form,
         [e.currentTarget.id]: e.currentTarget.value
       });
+  }
+
+  if(getAccessToken() !== ''){
+    history.push(DEFAULT_REDIR_AUTH);
   }
 
   //handle user login
@@ -75,7 +80,7 @@ export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      bg='gray.50'>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} w='lg' py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'3xl'}>Sign in to your account </Heading>
@@ -85,7 +90,7 @@ export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
         </Stack>
         <Box
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg='white'
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>

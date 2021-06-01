@@ -10,13 +10,14 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+  } from '@chakra-ui/react';
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { useRegisterMutation } from '../../generated/graphql';
-import { SetAccessToken } from '../../helpers/constants/token';
+import { getAccessToken, SetAccessToken } from '../../helpers/constants/token';
+import { DEFAULT_REDIR_AUTH } from '../../helpers/constants/defaults';
 
 export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
 
@@ -25,6 +26,10 @@ export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
   const [error, SetError] = React.useState('');
   const [loading, SetLoading] = React.useState(false);
   const [register] = useRegisterMutation();
+
+  if(getAccessToken() !== ''){
+    history.push(DEFAULT_REDIR_AUTH);
+  }
 
   const handleForm = (e: React.FormEvent<HTMLInputElement>) => { 
       SetForm({
@@ -78,7 +83,7 @@ export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      bg='gray.50'>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} w='lg' py={12} px={6}>
         <Stack align={'center'}>
           <Heading   fontSize={'3xl'}>Sign up for a new account </Heading>
@@ -89,7 +94,7 @@ export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
         <Box
           
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg='white'
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>
