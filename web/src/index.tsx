@@ -6,7 +6,8 @@ import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink, from  } from '@a
 import { onError } from "@apollo/client/link/error";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql"
+  uri: "http://localhost:4000/graphql",
+  credentials: "include"
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -24,8 +25,8 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const client : any = new ApolloClient({
   link: from([errorLink, httpLink]),
-  cache: new InMemoryCache()
-}) 
+  cache: new InMemoryCache({}),
+}); 
 
 ReactDOM.render(
   <React.StrictMode>
