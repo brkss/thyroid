@@ -16,7 +16,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { useRegisterMutation } from '../../generated/graphql';
-import { SetToken } from '../../helpers/constants/token';
+import { SetAccessToken } from '../../helpers/constants/token';
 
 export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
 
@@ -64,7 +64,7 @@ export const RegisterPage : React.FC<RouteComponentProps> = ({history}) => {
       SetLoading(false);
       if(res.data?.register.status === true){
         console.log('registered successfuly');
-        SetToken(res.data.register.accessToken!);
+        SetAccessToken(res.data.register.accessToken!);
         history.push('/');
       }else if(res.data?.register.status === false){
         console.log("error status is false")

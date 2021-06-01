@@ -16,7 +16,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { useLoginMutation } from '../../generated/graphql';
-import { SetToken } from '../../helpers/constants/token';
+import { SetAccessToken } from '../../helpers/constants/token';
 
 export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
 
@@ -57,7 +57,7 @@ export const LoginPage : React.FC<RouteComponentProps> = ({history}) => {
     SetLoading(false);
     if(resp.data?.login.status === true){
       console.log('registered successfuly');
-      SetToken(resp.data.login.accessToken!);
+      SetAccessToken(resp.data.login.accessToken!);
       history.push('/');
     }else if(resp.data?.login.status === false){
       console.log("error status is false")
