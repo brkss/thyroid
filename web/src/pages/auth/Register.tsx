@@ -58,12 +58,13 @@ export const RegisterPage : React.FC = () => {
         },
       });
       
-      
+      console.log("register response -> ", res);
       SetLoading(false);
       if(res.data?.register.status === true){
         console.log('registered successfuly');
       }else if(res.data?.register.status === false){
-        SetError(res.data?.register.message as string);
+        console.log("error status is false")
+        SetError(res.data!.register.message!);
       }
 
   }
@@ -90,7 +91,7 @@ export const RegisterPage : React.FC = () => {
           <Stack spacing={4}>
             {
               error ? 
-              <ErrorMessage message='invalid Data !' /> : null 
+              <ErrorMessage message={error} /> : null 
             }
             <FormControl id="email">
               <FormLabel>Name :</FormLabel>
