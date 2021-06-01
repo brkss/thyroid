@@ -114,7 +114,7 @@ export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>;
 export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>;
 export const RegisterDocument = gql`
     mutation Register($name: String!, $email: String!, $phone: String!, $password: String!) {
-  register(data: {name: $name, email: $email, phone: $phone, password: $phone}) {
+  register(data: {name: $name, email: $email, phone: $phone, password: $password}) {
     status
     message
     accessToken

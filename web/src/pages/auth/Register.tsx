@@ -14,12 +14,15 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { ErrorMessage } from '../../components/ErrorMessage';
+import { useRegisterMutation } from '../../generated/graphql';
 
 export const RegisterPage : React.FC = () => {
 
 
   const [form, SetForm] = React.useState<any>();
   const [error, SetError] = React.useState('');
+  const [loading, SetLoading] = React.useState(false);
+  const [register] = useRegisterMutation();
 
   const handleForm = (e: React.FormEvent<HTMLInputElement>) => { 
       SetForm({
@@ -28,7 +31,7 @@ export const RegisterPage : React.FC = () => {
       });
   }
 
-  const handleCreateAccount = () => {
+  const handleCreateAccount = async () => {
 
       SetError('')
 
@@ -36,6 +39,31 @@ export const RegisterPage : React.FC = () => {
       if(!form || !form.name || !form.email || !form.phone || !form.password ){
           SetError('Invalid data');
           return ;
+      }
+      SetError('');
+      const _data = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        password: form.password
+      }
+      console.log('data => ', _data);
+      SetLoading(true);
+      const res = await register({
+        variables: {
+          name: _data.name,
+          email: _data.email,
+          password: _data.password,
+          phone: _data.phone
+        },
+      });
+      
+      
+      SetLoading(false);
+      if(res.data?.register.status === true){
+        console.log('registered successfuly');
+      }else if(res.data?.register.status === false){
+        SetError(res.data?.register.message as string);
       }
 
   }
@@ -66,19 +94,19 @@ export const RegisterPage : React.FC = () => {
             }
             <FormControl id="email">
               <FormLabel>Name :</FormLabel>
-              <Input type="text" placeholder='Example example' id="name" onChange={(e) => handleForm(e)} />
+              <Input type="text" placeholder='Example example' id="name" onChange={(e) => handleForm(e)} disabled={loading} />
             </FormControl>
             <FormControl id="email">
               <FormLabel>Phone :</FormLabel>
-              <Input type="text" placeholder='0000000000' id="phone" onChange={(e) => handleForm(e)} />
+              <Input type="text" placeholder='0000000000' id="phone" onChange={(e) => handleForm(e)} disabled={loading} />
             </FormControl>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
-              <Input type="email" placeholder='example@exapmle.com' id="email" onChange={(e) => handleForm(e)} />
+              <Input type="email" placeholder='example@exapmle.com' id="email" onChange={(e) => handleForm(e)} disabled={loading} />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input type="password" id="password" onChange={(e) => handleForm(e)} />
+              <Input type="password" id="password" onChange={(e) => handleForm(e)} disabled={loading} />
             </FormControl>
             <Stack spacing={10}>
               <Stack
@@ -93,6 +121,8 @@ export const RegisterPage : React.FC = () => {
                 _hover={{
                   bg: 'gray.900',
                 }}
+                loadingText="signing up..."
+                isLoading={loading}
                 onClick={() => handleCreateAccount()}
                 >
                 Sign up
