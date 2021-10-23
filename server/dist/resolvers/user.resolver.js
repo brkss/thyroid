@@ -35,7 +35,7 @@ const sendRefreshToken_1 = require("../helpers/functions/user/sendRefreshToken")
 const auth_mw_1 = require("../helpers/middlewares/auth.mw");
 let UserResolver = class UserResolver {
     hello() {
-        return 'hi!!';
+        return "hi!!";
     }
     me(ctx) {
         return `user => ${ctx.payload.userId}`;
@@ -45,33 +45,35 @@ let UserResolver = class UserResolver {
             if (!data.identifier) {
                 return {
                     status: false,
-                    message: 'Invalid Email/Phone'
+                    message: "Invalid Email/Phone",
                 };
             }
             if (!data.password) {
                 return {
                     status: false,
-                    message: 'Invalid password'
+                    message: "Invalid password",
                 };
             }
-            const user = yield User_1.User.findOne({ where: [{ email: data.identifier }, { phone: data.identifier }] });
+            const user = yield User_1.User.findOne({
+                where: [{ email: data.identifier }, { phone: data.identifier }],
+            });
             if (!user) {
                 return {
                     status: false,
-                    message: 'Invalid Email/Phone'
+                    message: "Invalid Email/Phone",
                 };
             }
             const verify = yield bcrypt_1.default.compare(data.password, user.password);
             if (!verify) {
                 return {
                     status: false,
-                    message: 'Incorrect password!'
+                    message: "Incorrect password!",
                 };
             }
             sendRefreshToken_1.sendRefreshToken(res, token_1.createUserRefreshToken(user));
             return {
                 status: true,
-                accessToken: token_1.createUserAccessToken(user)
+                accessToken: token_1.createUserAccessToken(user),
             };
         });
     }
@@ -80,7 +82,7 @@ let UserResolver = class UserResolver {
             if (!data.name || !data.email || !data.phone || !data.password) {
                 return {
                     status: false,
-                    message: 'invalid data'
+                    message: "invalid data",
                 };
             }
             try {
@@ -89,26 +91,26 @@ let UserResolver = class UserResolver {
                     name: data.name,
                     email: data.email,
                     phone: data.phone,
-                    password: hashedPassword
+                    password: hashedPassword,
                 });
                 const user = yield User_1.User.findOne({ where: { email: data.email } });
                 sendRefreshToken_1.sendRefreshToken(res, token_1.createUserRefreshToken(user));
                 return {
                     status: true,
-                    accessToken: token_1.createUserAccessToken(user)
+                    accessToken: token_1.createUserAccessToken(user),
                 };
             }
             catch (e) {
-                console.log('error creatin user => ', e);
+                console.log("error creatin user => ", e);
                 if (e.code === "ER_DUP_ENTRY") {
                     return {
                         status: false,
-                        message: "Phone or email already exist!"
+                        message: "Phone or email already exist!",
                     };
                 }
                 return {
                     status: false,
-                    message: 'Something went wrong creating your account!'
+                    message: "Something went wrong creating your account!",
                 };
             }
         });
@@ -130,14 +132,16 @@ __decorate([
 ], UserResolver.prototype, "me", null);
 __decorate([
     type_graphql_1.Mutation(() => auth_response_1.AuthResponse),
-    __param(0, type_graphql_1.Arg('data')), __param(1, type_graphql_1.Ctx()),
+    __param(0, type_graphql_1.Arg("data")),
+    __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_input_1.LoginUserInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "login", null);
 __decorate([
     type_graphql_1.Mutation(() => auth_response_1.AuthResponse),
-    __param(0, type_graphql_1.Arg('data')), __param(1, type_graphql_1.Ctx()),
+    __param(0, type_graphql_1.Arg("data")),
+    __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_input_1.RegisterUserInput, Object]),
     __metadata("design:returntype", Promise)

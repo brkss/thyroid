@@ -16,8 +16,8 @@ let User = class User extends typeorm_1.BaseEntity {
 };
 __decorate([
     type_graphql_1.Field(() => Number),
-    typeorm_1.PrimaryGeneratedColumn(),
-    __metadata("design:type", Number)
+    typeorm_1.PrimaryGeneratedColumn("uuid"),
+    __metadata("design:type", String)
 ], User.prototype, "id", void 0);
 __decorate([
     type_graphql_1.Field(() => String),
@@ -41,7 +41,7 @@ __decorate([
 ], User.prototype, "password", void 0);
 __decorate([
     type_graphql_1.Field(() => Number),
-    typeorm_1.Column('int', { default: 0 }),
+    typeorm_1.Column("int", { default: 0 }),
     __metadata("design:type", Number)
 ], User.prototype, "tokenVersion", void 0);
 __decorate([
@@ -54,7 +54,7 @@ __decorate([
 ], User.prototype, "updated_at", void 0);
 User = __decorate([
     type_graphql_1.ObjectType(),
-    typeorm_1.Entity('users')
+    typeorm_1.Entity("users")
 ], User);
 exports.User = User;
 //# sourceMappingURL=User.js.map
