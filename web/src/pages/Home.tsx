@@ -1,6 +1,6 @@
 import React from "react";
 import { useHelloQuery } from "../generated/graphql";
-import { NavBar } from "../components";
+import { NavBar, Nutrition } from "../components";
 
 export const HomePage: React.FC = () => {
   const { loading, data } = useHelloQuery();
@@ -9,6 +9,7 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <NavBar />
+      <Nutrition />
       {data?.hello}
     </>
   );
