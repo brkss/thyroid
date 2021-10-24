@@ -12,10 +12,10 @@ export const Nutrition: React.FC = () => {
           <Nut
             key={key}
             style={{
-              borderTopLeftRadius: key == 0 ? "7px" : "",
-              borderBottomLeftRadius: key == 0 ? "7px" : "",
-              borderTopRightRadius: key == data.length - 1 ? "7px" : "",
-              borderBottomRightRadius: key == data.length - 1 ? "7px" : "",
+              borderTopLeftRadius: key == 0 ? "50px" : "",
+              borderBottomLeftRadius: key == 0 ? "50px" : "",
+              borderTopRightRadius: key == data.length - 1 ? "50px" : "",
+              borderBottomRightRadius: key == data.length - 1 ? "50px" : "",
               background: nut.color,
               width: `${nut.domination}%`,
             }}
