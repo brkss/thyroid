@@ -12,45 +12,56 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Ingredient = void 0;
 const typeorm_1 = require("typeorm");
 const Recipe_1 = require("./Recipe");
+const type_graphql_1 = require("type-graphql");
 let Ingredient = class Ingredient extends typeorm_1.BaseEntity {
 };
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.PrimaryGeneratedColumn("uuid"),
     __metadata("design:type", String)
 ], Ingredient.prototype, "id", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", Number)
 ], Ingredient.prototype, "quantity", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], Ingredient.prototype, "unit", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], Ingredient.prototype, "pluralUnit", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], Ingredient.prototype, "symbol", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], Ingredient.prototype, "text", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", Number)
 ], Ingredient.prototype, "minQty", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", Number)
 ], Ingredient.prototype, "maxQty", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], Ingredient.prototype, "raw", void 0);
 __decorate([
+    type_graphql_1.Field(() => Recipe_1.Recipe),
     typeorm_1.ManyToOne(() => Recipe_1.Recipe, (recipe) => recipe.ingredients, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
@@ -58,6 +69,7 @@ __decorate([
     __metadata("design:type", Recipe_1.Recipe)
 ], Ingredient.prototype, "recipe", void 0);
 Ingredient = __decorate([
+    type_graphql_1.ObjectType(),
     typeorm_1.Entity("ingredients")
 ], Ingredient);
 exports.Ingredient = Ingredient;

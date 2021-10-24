@@ -12,17 +12,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Instruction = void 0;
 const typeorm_1 = require("typeorm");
 const Recipe_1 = require("./Recipe");
+const type_graphql_1 = require("type-graphql");
 let Instruction = class Instruction extends typeorm_1.BaseEntity {
 };
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.PrimaryGeneratedColumn("uuid"),
     __metadata("design:type", String)
 ], Instruction.prototype, "id", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], Instruction.prototype, "text", void 0);
 __decorate([
+    type_graphql_1.Field(() => Recipe_1.Recipe),
     typeorm_1.ManyToOne(() => Recipe_1.Recipe, (recipe) => recipe.instructions, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
@@ -30,6 +34,7 @@ __decorate([
     __metadata("design:type", Recipe_1.Recipe)
 ], Instruction.prototype, "recipe", void 0);
 Instruction = __decorate([
+    type_graphql_1.ObjectType(),
     typeorm_1.Entity("instructions")
 ], Instruction);
 exports.Instruction = Instruction;
