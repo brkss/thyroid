@@ -1,12 +1,13 @@
 import React from "react";
 import { Box, Heading } from "@chakra-ui/react";
-import { Nutrition } from "../../components";
+import { Nutrition, DietMechanismButton } from "../../components";
 
 export const DietPage: React.FC = () => {
   return (
-    <Box>
+    <Box p={"30px"}>
       <Heading>Diet</Heading>
       <Nutrition />
+      <DietMechanismButton />
     </Box>
   );
 };

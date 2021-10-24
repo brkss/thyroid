@@ -6,7 +6,7 @@ import { NutritionKey } from ".";
 
 export const Nutrition: React.FC = () => {
   return (
-    <Box p={"15px"}>
+    <Box mb={"30px"} mt={"30px"}>
       <Box>
         {data.map((nut, key) => (
           <Nut

@@ -1,0 +1,1 @@
+export { DietMechanismButton } from "./DietMechanismButton";
