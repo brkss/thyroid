@@ -1,40 +1,62 @@
 import { Resolver, Query, Arg } from "type-graphql";
 import { parse } from "recipe-ingredient-parser-v3";
+import { Recipe, Ingredient, Instruction } from "../../entity";
+import { DefaultResponse } from "../../helpers/responses/default.response";
 const recipeScraper = require("recipe-scraper");
 
 @Resolver()
 export class RecipeResolver {
-  @Query(() => Boolean)
-  async downloadRecipe(@Arg("url") url: string) {
-    if (!url) return false;
-    let recipe = null;
+  @Query(() => DefaultResponse)
+  async downloadRecipe(@Arg("url") url: string): Promise<DefaultResponse> {
+    if (!url)
+      return {
+        status: false,
+        message: "Invalid URL !",
+      };
     try {
-      recipe = await recipeScraper(url);
-      /*
-      if(recipe.ingredients){
-        recipe.ingredients.map()
+      const recipe_raw = await recipeScraper(url);
+      const recipe = new Recipe();
+      recipe.title = recipe_raw.name;
+      recipe.description = recipe_raw.description;
+      recipe.prep = recipe_raw.time.prep;
+      recipe.cook = recipe_raw.time.cook;
+      recipe.ready = recipe_raw.time.active;
+      recipe.total = recipe_raw.time.total;
+      recipe.servings = recipe_raw.servings;
+      recipe.image = recipe_raw.image;
+      await recipe.save();
+      // add ingrdients
+      for (let ing of recipe_raw.ingredients) {
+        const ingredient = new Ingredient();
+        const parsed = parse(ing, "eng");
+        ingredient.quantity = (parsed.quantity as any) || null;
+        ingredient.unit = parsed.unit as any;
+        ingredient.pluralUnit = parsed.unitPlural as any;
+        ingredient.symbol = parsed.symbol as any;
+        ingredient.minQty = parsed.minQty as any;
+        ingredient.maxQty = parsed.maxQty as any;
+        ingredient.raw = ing;
+        ingredient.recipe = recipe;
+        await ingredient.save();
       }
-      */
-      const ingredients = [
-        "3 medium cucumbers, partially peeled",
-        "1-2 green serrano chiles, stemmed and minced",
-        "1/2 cup / 2.5 ounces / 70 g peanuts, toasted",
-        "1/3 cup / 1.5 ounces / 45 g dried large-flake coconut, toasted",
-        "2 tablespoons fresh lemon juice",
-        "1 teaspoon natural cane sugar",
-        "1 tablespoon, ghee, clarified butter, or sunflower oil",
-        "1/2 teaspoon black mustard seeds",
-        "1/4 teaspoon cumin seeds",
-        "scant 1/2 teaspoon fine grain sea salt",
-        "a handful cilantro, chopped",
-      ];
-      for (let ing of ingredients) {
-        console.log("ing => ", parse(ing, "eng"));
+      // add instructions
+      for (let ins of recipe_raw.instructions) {
+        const instruction = new Instruction();
+        instruction.text = ins;
+        instruction.recipe = recipe;
+        await instruction.save();
       }
-      return true;
+
+      return {
+        status: true,
+        message: "Recipe Imported successfuly !",
+      };
     } catch (e) {
       console.log("error accured downloading recipe !", e);
-      return false;
+      return {
+        status: false,
+        message: "Something went wrong ! ",
+      };
     }
   }
 }

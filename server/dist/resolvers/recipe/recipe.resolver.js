@@ -24,42 +24,65 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecipeResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const recipe_ingredient_parser_v3_1 = require("recipe-ingredient-parser-v3");
+const entity_1 = require("../../entity");
+const default_response_1 = require("../../helpers/responses/default.response");
 const recipeScraper = require("recipe-scraper");
 let RecipeResolver = class RecipeResolver {
     downloadRecipe(url) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!url)
-                return false;
-            let recipe = null;
+                return {
+                    status: false,
+                    message: "Invalid URL !",
+                };
             try {
-                recipe = yield recipeScraper(url);
-                const ingredients = [
-                    "3 medium cucumbers, partially peeled",
-                    "1-2 green serrano chiles, stemmed and minced",
-                    "1/2 cup / 2.5 ounces / 70 g peanuts, toasted",
-                    "1/3 cup / 1.5 ounces / 45 g dried large-flake coconut, toasted",
-                    "2 tablespoons fresh lemon juice",
-                    "1 teaspoon natural cane sugar",
-                    "1 tablespoon, ghee, clarified butter, or sunflower oil",
-                    "1/2 teaspoon black mustard seeds",
-                    "1/4 teaspoon cumin seeds",
-                    "scant 1/2 teaspoon fine grain sea salt",
-                    "a handful cilantro, chopped",
-                ];
-                for (let ing of ingredients) {
-                    console.log("ing => ", recipe_ingredient_parser_v3_1.parse(ing, "eng"));
+                const recipe_raw = yield recipeScraper(url);
+                const recipe = new entity_1.Recipe();
+                recipe.title = recipe_raw.name;
+                recipe.description = recipe_raw.description;
+                recipe.prep = recipe_raw.time.prep;
+                recipe.cook = recipe_raw.time.cook;
+                recipe.ready = recipe_raw.time.active;
+                recipe.total = recipe_raw.time.total;
+                recipe.servings = recipe_raw.servings;
+                recipe.image = recipe_raw.image;
+                yield recipe.save();
+                for (let ing of recipe_raw.ingredients) {
+                    const ingredient = new entity_1.Ingredient();
+                    const parsed = recipe_ingredient_parser_v3_1.parse(ing, "eng");
+                    ingredient.quantity = parsed.quantity || null;
+                    ingredient.unit = parsed.unit;
+                    ingredient.pluralUnit = parsed.unitPlural;
+                    ingredient.symbol = parsed.symbol;
+                    ingredient.minQty = parsed.minQty;
+                    ingredient.maxQty = parsed.maxQty;
+                    ingredient.raw = ing;
+                    ingredient.recipe = recipe;
+                    yield ingredient.save();
                 }
-                return true;
+                for (let ins of recipe_raw.instructions) {
+                    const instruction = new entity_1.Instruction();
+                    instruction.text = ins;
+                    instruction.recipe = recipe;
+                    yield instruction.save();
+                }
+                return {
+                    status: true,
+                    message: "Recipe Imported successfuly !",
+                };
             }
             catch (e) {
                 console.log("error accured downloading recipe !", e);
-                return false;
+                return {
+                    status: false,
+                    message: "Something went wrong ! ",
+                };
             }
         });
     }
 };
 __decorate([
-    type_graphql_1.Query(() => Boolean),
+    type_graphql_1.Query(() => default_response_1.DefaultResponse),
     __param(0, type_graphql_1.Arg("url")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

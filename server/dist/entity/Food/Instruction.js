@@ -22,7 +22,7 @@ __decorate([
 ], Instruction.prototype, "id", void 0);
 __decorate([
     type_graphql_1.Field({ nullable: true }),
-    typeorm_1.Column({ nullable: true }),
+    typeorm_1.Column("text", { nullable: true }),
     __metadata("design:type", String)
 ], Instruction.prototype, "text", void 0);
 __decorate([

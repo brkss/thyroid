@@ -16,7 +16,7 @@ export class Instruction extends BaseEntity {
   id: string;
 
   @Field({ nullable: true })
-  @Column({ nullable: true })
+  @Column("text", { nullable: true })
   text: string;
 
   @Field(() => Recipe)

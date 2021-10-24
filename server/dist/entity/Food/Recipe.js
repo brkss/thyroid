@@ -28,7 +28,7 @@ __decorate([
 ], Recipe.prototype, "title", void 0);
 __decorate([
     type_graphql_1.Field({ nullable: true }),
-    typeorm_1.Column({ nullable: true }),
+    typeorm_1.Column("text", { nullable: true }),
     __metadata("design:type", String)
 ], Recipe.prototype, "description", void 0);
 __decorate([
@@ -46,6 +46,11 @@ __decorate([
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], Recipe.prototype, "ready", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], Recipe.prototype, "total", void 0);
 __decorate([
     type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
