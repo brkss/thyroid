@@ -17,9 +17,9 @@ const token_1 = require("./token");
 const refreshUserToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.cookies.ujid;
     if (!token) {
-        res.send({
+        return res.send({
             status: false,
-            aceessToken: ''
+            aceessToken: "",
         });
     }
     let payload = null;
@@ -29,26 +29,26 @@ const refreshUserToken = (req, res) => __awaiter(void 0, void 0, void 0, functio
     catch (e) {
         return res.send({
             status: false,
-            accessToken: ''
+            accessToken: "",
         });
     }
     const user = yield User_1.User.findOne({ where: { id: payload.userId } });
     if (!user) {
         return res.send({
             status: false,
-            accessToken: ''
+            accessToken: "",
         });
     }
     if (payload.tokenVersion !== user.tokenVersion) {
         return res.send({
             status: false,
-            accessToken: ''
+            accessToken: "",
         });
     }
     sendRefreshToken_1.sendRefreshToken(res, token_1.createUserRefreshToken(user));
     return res.send({
         status: true,
-        accessToken: token_1.createUserAccessToken(user)
+        accessToken: token_1.createUserAccessToken(user),
     });
 });
 exports.refreshUserToken = refreshUserToken;

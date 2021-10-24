@@ -18,7 +18,7 @@ const express_1 = __importDefault(require("express"));
 const typeorm_1 = require("typeorm");
 const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
-const user_resolver_1 = require("./resolvers/user.resolver");
+const resolvers_1 = require("./resolvers");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const refreshToken_1 = require("./helpers/functions/user/refreshToken");
 const cors_1 = __importDefault(require("cors"));
@@ -27,23 +27,25 @@ const cors_1 = __importDefault(require("cors"));
     const app = express_1.default();
     app.use(cors_1.default({
         credentials: true,
-        origin: 'http://localhost:3000'
+        origin: "http://localhost:3000",
     }));
     app.use(cookie_parser_1.default());
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: yield type_graphql_1.buildSchema({
-            resolvers: [user_resolver_1.UserResolver],
-            validate: true
+            resolvers: [resolvers_1.UserResolver, resolvers_1.RecipeResolver],
+            validate: true,
         }),
-        context: ({ req, res }) => ({ req, res })
+        context: ({ req, res }) => ({ req, res }),
     });
     apolloServer.applyMiddleware({ app, cors: false });
-    app.get('/', (_, res) => {
-        res.send('hello world from express');
+    app.get("/", (_, res) => {
+        res.send("hello world from express");
     });
-    app.post('/refresh_user_token', (req, res) => __awaiter(void 0, void 0, void 0, function* () { return yield refreshToken_1.refreshUserToken(req, res); }));
+    app.post("/refresh_user_token", (req, res) => __awaiter(void 0, void 0, void 0, function* () { return yield refreshToken_1.refreshUserToken(req, res); }));
     app.listen(4000, () => {
-        console.log('server started at http://127.0.0.1:4000 ');
+        console.log("server started at http://127.0.0.1:4000 ");
     });
-}))();
+}))().catch((e) => {
+    console.log("Error in main function ! => ", e);
+});
 //# sourceMappingURL=index.js.map
