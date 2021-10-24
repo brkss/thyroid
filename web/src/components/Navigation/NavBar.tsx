@@ -12,7 +12,7 @@ import {
 
 export const NavBar: React.FC = () => {
   return (
-    <Box p={"15px"} bg={"#FFF7D5"} w={"full"}>
+    <Box p={"15px"} bg={"#FFF"} borderBottom={"1px solid #00000017"} w={"full"}>
       <Grid templateColumns="repeat(12, 1fr)">
         <GridItem colSpan={3} pb={"2px"}>
           <Text fontWeight={"bold"}>OpenCC</Text>
