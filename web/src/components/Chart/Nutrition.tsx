@@ -37,6 +37,6 @@ export const Nutrition: React.FC = () => {
 
 const Nut = styled.span`
   background: red;
-  height: 35px;
+  height: 20px;
   display: inline-block;
 `;
