@@ -3,6 +3,7 @@ import { LoginPage } from "../pages/auth/Login";
 import { RegisterPage } from "../pages/auth/Register";
 import { HomePage } from "../pages/Home";
 import { ProfilePage } from "../pages/Profile";
+import { DietPage } from "../pages";
 
 export const routes: IRoute[] = [
   {
@@ -23,6 +24,14 @@ export const routes: IRoute[] = [
     name: "Home page",
     path: "/",
     component: HomePage,
+    exact: true,
+    protected: true,
+  },
+  // Diet
+  {
+    name: "Diet",
+    path: "/diet",
+    component: DietPage,
     exact: true,
     protected: true,
   },

@@ -1,0 +1,1 @@
+export { DietPage } from "./Food";

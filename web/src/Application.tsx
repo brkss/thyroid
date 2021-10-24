@@ -4,11 +4,12 @@ import {
   Switch,
   Route,
   RouteComponentProps,
+  Redirect,
 } from "react-router-dom";
-import { GuardRoute } from "./components/GuardRoute";
 import { routes } from "./config/routes";
 import { getAccessToken, SetAccessToken } from "./helpers/constants/token";
 import { Center } from "@chakra-ui/react";
+import { NavBar } from "./components";
 
 export const Application: React.FC = () => {
   //
@@ -36,10 +37,28 @@ export const Application: React.FC = () => {
   return (
     <>
       <BrowserRouter>
+        <NavBar />
         <Switch>
           {routes.map((route, key) =>
             route.protected ? (
-              <GuardRoute route={route} key={key} />
+              getAccessToken() ? (
+                <Route
+                  key={key}
+                  path={route.path}
+                  exact={route.exact}
+                  render={(props: RouteComponentProps) => {
+                    return (
+                      <route.component
+                        {...props}
+                        {...route.props}
+                        name={route.name}
+                      />
+                    );
+                  }}
+                />
+              ) : (
+                <Redirect to={"/auth/login"} />
+              )
             ) : (
               <Route
                 key={key}

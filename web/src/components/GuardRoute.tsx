@@ -13,16 +13,15 @@ export const GuardRoute: React.FC<Props> = ({ route }) => {
   if (getAccessToken() === "") {
     return <Redirect to={DEFAULT_REDIR_NOT_AUTH} />;
   }
+
+  console.log("Access Token => ", getAccessToken());
   return (
     <Route
       path={route.path}
       exact={route.exact}
-      render={(props: RouteComponentProps) => {
-        return (
-          <route.component {...props} {...route.props} name={route.name} />
-        );
-      }}
+      render={(props: RouteComponentProps) => (
+        <route.component {...props} {...route.props} name={route.name} />
+      )}
     />
   );
 };
-
