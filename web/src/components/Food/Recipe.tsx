@@ -1,5 +1,7 @@
 import React from "react";
 import {
+  Text,
+  Image,
   Heading,
   Drawer,
   DrawerBody,
@@ -10,6 +12,7 @@ import {
   DrawerCloseButton,
   Button,
 } from "@chakra-ui/react";
+import { RecipeTopBar } from "./RecipeTopBar";
 
 interface Props {
   isOpen: boolean;
@@ -26,15 +29,20 @@ export const Recipe: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
         <DrawerHeader></DrawerHeader>
 
         <DrawerBody>
+          <RecipeTopBar />
           <Heading> Tropical Bowl </Heading>
+          <Text fontSize={"15px"} mt={"10px"} fontWeight={"bold"}>
+            A refreshing chopped cucumber salad loaded with peanuts, spices,
+            toasted coconut, and chiles.
+          </Text>
+          <Image
+            mt={"15px"}
+            rounded={"10px"}
+            src={
+              "https://images.101cookbooks.com/CUCUMBER-SALAD-RECIPE-h.jpg?w=680"
+            }
+          />
         </DrawerBody>
-
-        <DrawerFooter>
-          <Button variant="outline" mr={3} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button colorScheme="blue">Save</Button>
-        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
