@@ -11,8 +11,13 @@ import {
   DrawerContent,
   DrawerCloseButton,
   Button,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from "@chakra-ui/react";
-import { RecipeTopBar } from "./RecipeTopBar";
+import { General, Ingredient } from "./RecipeComponents";
 
 interface Props {
   isOpen: boolean;
@@ -29,19 +34,28 @@ export const Recipe: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
         <DrawerHeader></DrawerHeader>
 
         <DrawerBody>
-          <RecipeTopBar />
-          <Heading> Tropical Bowl </Heading>
-          <Text fontSize={"15px"} mt={"10px"} fontWeight={"bold"}>
-            A refreshing chopped cucumber salad loaded with peanuts, spices,
-            toasted coconut, and chiles.
-          </Text>
-          <Image
-            mt={"15px"}
-            rounded={"10px"}
-            src={
-              "https://images.101cookbooks.com/CUCUMBER-SALAD-RECIPE-h.jpg?w=680"
-            }
-          />
+          <Tabs variant="soft-rounded" colorScheme="green">
+            <TabList>
+              <Tab _focus={{ outline: "none" }}>General</Tab>
+              <Tab _focus={{ outline: "none" }}>Ingredients</Tab>
+              <Tab _focus={{ outline: "none" }}>Instructions</Tab>
+              <Tab _focus={{ outline: "none" }}>Nutrition</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <General />
+              </TabPanel>
+              <TabPanel>
+                <Ingredient />
+              </TabPanel>
+              <TabPanel>
+                <h1>yyyy</h1>
+              </TabPanel>
+              <TabPanel>
+                <h1>uuuuuu</h1>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </DrawerBody>
       </DrawerContent>
     </Drawer>

@@ -37,7 +37,7 @@ export const Application: React.FC = () => {
   return (
     <>
       <BrowserRouter>
-        <NavBar />
+        {getAccessToken() ? <NavBar /> : null}
         <Switch>
           {routes.map((route, key) =>
             route.protected ? (

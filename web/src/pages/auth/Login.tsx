@@ -65,7 +65,11 @@ export const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
           <Heading fontSize={"3xl"}>Sign in to your account </Heading>
         </Stack>
         <Box p={8}>
-          {error ? <ErrorMessage message={error} /> : null}
+          {error ? (
+            <Box mb={"10px"}>
+              <ErrorMessage message={error} />
+            </Box>
+          ) : null}
           <InputAuth
             placeholder={"Email"}
             changed={(vl) => handleForm("identifier", vl)}
@@ -86,9 +90,9 @@ export const LoginPage: React.FC<RouteComponentProps> = ({ history }) => {
               bg: "gray.900",
             }}
             onClick={() => handleUserLogin()}
-            size={"sm"}
+            size={"md"}
             mt={"10px"}
-            w={"100px"}
+            minW={"120px"}
           >
             Login
           </Button>
