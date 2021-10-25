@@ -48,6 +48,10 @@ export class Recipe extends BaseEntity {
   @Column({ nullable: true })
   image?: string;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  url?: string;
+
   @Field(() => [Ingredient], { nullable: true })
   @OneToMany(() => Ingredient, (ingredients) => ingredients.recipe)
   ingredients: Ingredient[];

@@ -62,6 +62,11 @@ __decorate([
     __metadata("design:type", String)
 ], Recipe.prototype, "image", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], Recipe.prototype, "url", void 0);
+__decorate([
     type_graphql_1.Field(() => [Ingredient_1.Ingredient], { nullable: true }),
     typeorm_1.OneToMany(() => Ingredient_1.Ingredient, (ingredients) => ingredients.recipe),
     __metadata("design:type", Array)

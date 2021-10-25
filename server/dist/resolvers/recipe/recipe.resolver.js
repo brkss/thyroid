@@ -28,6 +28,14 @@ const entity_1 = require("../../entity");
 const default_response_1 = require("../../helpers/responses/default.response");
 const recipeScraper = require("recipe-scraper");
 let RecipeResolver = class RecipeResolver {
+    recipes() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const recipes = yield entity_1.Recipe.find({
+                relations: ["ingredients", "instructions"],
+            });
+            return recipes;
+        });
+    }
     downloadRecipe(url) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!url)
@@ -37,6 +45,7 @@ let RecipeResolver = class RecipeResolver {
                 };
             try {
                 const recipe_raw = yield recipeScraper(url);
+                console.log("scrapped recipe => ", recipe_raw);
                 const recipe = new entity_1.Recipe();
                 recipe.title = recipe_raw.name;
                 recipe.description = recipe_raw.description;
@@ -46,6 +55,7 @@ let RecipeResolver = class RecipeResolver {
                 recipe.total = recipe_raw.time.total;
                 recipe.servings = recipe_raw.servings;
                 recipe.image = recipe_raw.image;
+                recipe.url = url;
                 yield recipe.save();
                 for (let ing of recipe_raw.ingredients) {
                     const ingredient = new entity_1.Ingredient();
@@ -82,7 +92,13 @@ let RecipeResolver = class RecipeResolver {
     }
 };
 __decorate([
-    type_graphql_1.Query(() => default_response_1.DefaultResponse),
+    type_graphql_1.Query(() => [entity_1.Recipe]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], RecipeResolver.prototype, "recipes", null);
+__decorate([
+    type_graphql_1.Mutation(() => default_response_1.DefaultResponse),
     __param(0, type_graphql_1.Arg("url")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

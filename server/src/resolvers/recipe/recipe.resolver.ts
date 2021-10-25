@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg } from "type-graphql";
+import { Resolver, Query, Arg, Mutation } from "type-graphql";
 import { parse } from "recipe-ingredient-parser-v3";
 import { Recipe, Ingredient, Instruction } from "../../entity";
 import { DefaultResponse } from "../../helpers/responses/default.response";
@@ -6,7 +6,15 @@ const recipeScraper = require("recipe-scraper");
 
 @Resolver()
 export class RecipeResolver {
-  @Query(() => DefaultResponse)
+  @Query(() => [Recipe])
+  async recipes(): Promise<Recipe[]> {
+    const recipes = await Recipe.find({
+      relations: ["ingredients", "instructions"],
+    });
+    return recipes;
+  }
+
+  @Mutation(() => DefaultResponse)
   async downloadRecipe(@Arg("url") url: string): Promise<DefaultResponse> {
     if (!url)
       return {
@@ -15,6 +23,7 @@ export class RecipeResolver {
       };
     try {
       const recipe_raw = await recipeScraper(url);
+      console.log("scrapped recipe => ", recipe_raw);
       const recipe = new Recipe();
       recipe.title = recipe_raw.name;
       recipe.description = recipe_raw.description;
@@ -24,6 +33,7 @@ export class RecipeResolver {
       recipe.total = recipe_raw.time.total;
       recipe.servings = recipe_raw.servings;
       recipe.image = recipe_raw.image;
+      recipe.url = url;
       await recipe.save();
       // add ingrdients
       for (let ing of recipe_raw.ingredients) {
