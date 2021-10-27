@@ -17,7 +17,7 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
-import { General, Ingredient } from "./RecipeComponents";
+import { General, Ingredient, Instructions } from "./RecipeComponents";
 
 interface Props {
   isOpen: boolean;
@@ -49,7 +49,7 @@ export const Recipe: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
                 <Ingredient />
               </TabPanel>
               <TabPanel>
-                <h1>yyyy</h1>
+                <Instructions />
               </TabPanel>
               <TabPanel>
                 <h1>uuuuuu</h1>

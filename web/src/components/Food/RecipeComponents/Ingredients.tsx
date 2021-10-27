@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Heading, Text } from "@chakra-ui/react";
+import * as ReactIcons from "react-icons/all";
 
 const ingredients = [
   "1 (3 pound) spaghetti squash, halved and seeded",
@@ -53,6 +54,9 @@ export const Ingredient: React.FC = () => {
               textDecoration={checked.includes(key) ? "line-through" : "none"}
               fontWeight={"bold"}
             >
+              <ReactIcons.FiInfo
+                style={{ marginRight: "5px", display: "inline-block" }}
+              />
               {ing}
             </Text>
           </Box>
