@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Heading, Grid, GridItem, useDisclosure } from "@chakra-ui/react";
-import { Nutrition, DietMechanismButton, Meal, Recipe } from "../../components";
+import { Nutrition, DietFlags, Meal, Recipe } from "../../components";
 import { meals } from "../../helpers/data/meals";
 
 export const DietPage: React.FC = () => {
@@ -11,7 +11,7 @@ export const DietPage: React.FC = () => {
         Diet
       </Heading>
       <Nutrition />
-      <DietMechanismButton />
+      <DietFlags />
       <Box mt={"10px"}>
         <Heading fontSize={"25px"}>23, Oct 2021</Heading>
         <Grid mt={"20px"} templateColumns="repeat(12, 1fr)">

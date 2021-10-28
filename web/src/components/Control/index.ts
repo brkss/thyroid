@@ -1,1 +1,1 @@
-export { DietMechanismButton } from "./DietMechanismButton";
+export { DietFlags } from "./DietFlags";
