@@ -2,6 +2,7 @@ import { Resolver, Query, Arg, Mutation } from "type-graphql";
 import { parse } from "recipe-ingredient-parser-v3";
 import { Recipe, Ingredient, Instruction } from "../../entity";
 import { DefaultResponse } from "../../helpers/responses/default.response";
+import { Axios } from "axios";
 const recipeScraper = require("recipe-scraper");
 
 @Resolver()
