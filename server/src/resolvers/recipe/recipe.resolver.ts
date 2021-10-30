@@ -36,6 +36,8 @@ export class RecipeResolver {
       recipe.image = recipe_raw.image;
       recipe.url = url;
       await recipe.save();
+      // get recipe nutrition !
+
       // add ingrdients
       for (let ing of recipe_raw.ingredients) {
         const ingredient = new Ingredient();

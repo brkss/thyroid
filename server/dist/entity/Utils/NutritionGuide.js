@@ -11,29 +11,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NutritionGuide = void 0;
 const typeorm_1 = require("typeorm");
+const type_graphql_1 = require("type-graphql");
 let NutritionGuide = class NutritionGuide extends typeorm_1.BaseEntity {
 };
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], NutritionGuide.prototype, "id", void 0);
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], NutritionGuide.prototype, "ntr_code", void 0);
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], NutritionGuide.prototype, "name", void 0);
 __decorate([
+    type_graphql_1.Field(),
     typeorm_1.Column(),
     __metadata("design:type", String)
-], NutritionGuide.prototype, "code", void 0);
+], NutritionGuide.prototype, "unit", void 0);
 __decorate([
+    type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], NutritionGuide.prototype, "color", void 0);
 NutritionGuide = __decorate([
+    type_graphql_1.ObjectType(),
     typeorm_1.Entity("nutrition_guide")
 ], NutritionGuide);
 exports.NutritionGuide = NutritionGuide;

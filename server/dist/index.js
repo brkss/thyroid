@@ -32,7 +32,7 @@ const cors_1 = __importDefault(require("cors"));
     app.use(cookie_parser_1.default());
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: yield type_graphql_1.buildSchema({
-            resolvers: [resolvers_1.UserResolver, resolvers_1.RecipeResolver],
+            resolvers: [resolvers_1.UserResolver, resolvers_1.RecipeResolver, resolvers_1.NutritionResolver],
             validate: true,
         }),
         context: ({ req, res }) => ({ req, res }),

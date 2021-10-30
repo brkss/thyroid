@@ -4,7 +4,7 @@ import express from "express";
 import { createConnection } from "typeorm";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { UserResolver, RecipeResolver } from "./resolvers";
+import { UserResolver, RecipeResolver, NutritionResolver } from "./resolvers";
 import cookieParser from "cookie-parser";
 import { refreshUserToken } from "./helpers/functions/user/refreshToken";
 import cors from "cors";
@@ -23,7 +23,7 @@ import cors from "cors";
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, RecipeResolver],
+      resolvers: [UserResolver, RecipeResolver, NutritionResolver],
       validate: true,
     }),
     context: ({ req, res }) => ({ req, res }),
