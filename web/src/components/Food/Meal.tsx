@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Text, Heading } from "@chakra-ui/react";
+import { Box, Text, Heading, Center } from "@chakra-ui/react";
 import { RecipeMeal } from ".";
 import { IRecipe } from "../../helpers/types/Recipe";
+import * as ReactIcons from "react-icons/all";
 
 interface Props {
   meal: string;
@@ -19,6 +20,16 @@ export const Meal: React.FC<Props> = ({ meal, time, recipes, showRecipe }) => {
         {recipes?.map((recipe, key) => (
           <RecipeMeal clicked={() => showRecipe()} {...recipe} key={key} />
         ))}
+        <Center
+          h={"100px"}
+          mt={"15px"}
+          bg={"#f7f7f7"}
+          rounded={"7px"}
+          fontWeight={"bold"}
+          fontSize={"25px"}
+        >
+          <ReactIcons.FiPlus />
+        </Center>
       </Box>
     </Box>
   );

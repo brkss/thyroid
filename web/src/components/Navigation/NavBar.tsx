@@ -8,9 +8,12 @@ import {
   Text,
   Center,
   Avatar,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { Settings } from "..";
 
 export const NavBar: React.FC = () => {
+  const _settings = useDisclosure();
   return (
     <Box p={"15px"} bg={"#FFF"} borderBottom={"1px solid #00000017"} w={"full"}>
       <Grid templateColumns="repeat(12, 1fr)">
@@ -35,11 +38,17 @@ export const NavBar: React.FC = () => {
         <GridItem colSpan={3}>
           <Wrap justify={"right"} spacing={4}>
             <WrapItem>
-              <Avatar size={"sm"} name="Me" src="https://bit.ly/dan-abramov" />
+              <Avatar
+                onClick={() => _settings.onOpen()}
+                size={"sm"}
+                name="Me"
+                src="https://bit.ly/dan-abramov"
+              />
             </WrapItem>
           </Wrap>
         </GridItem>
       </Grid>
+      <Settings {..._settings} />
     </Box>
   );
 };
