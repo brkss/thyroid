@@ -1,22 +1,25 @@
 import React from "react";
 import { Box, Text, Center, Wrap, WrapItem } from "@chakra-ui/react";
 
-const types = ["AUP", "LC", "Gluten Free"];
+const types = ["AUP", "LC", "Gluten Free", "KETO"];
 
 export const RecipeType: React.FC = () => {
   return (
     <Box>
       <Text fontWeight={"bold"}>Type</Text>
       <Box mt={"5px"}>
-        <Wrap>
+        <ul style={{ whiteSpace: "nowrap", overflow: "scrolt" }}>
           {types.map((type, key) => (
-            <WrapItem key={key}>
+            <li
+              key={key}
+              style={{ display: "inline-block", marginRight: "15px" }}
+            >
               <Center bg={"#EDEBEB"} rounded={7} p={"10px"} minW={"150px"}>
                 <Text fontWeight={"bold"}>{type}</Text>
               </Center>
-            </WrapItem>
+            </li>
           ))}
-        </Wrap>
+        </ul>
       </Box>
     </Box>
   );

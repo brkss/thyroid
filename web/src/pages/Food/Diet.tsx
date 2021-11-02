@@ -14,7 +14,7 @@ export const DietPage: React.FC = () => {
       <DietFlags />
       <Box mt={"10px"}>
         <Heading fontSize={"25px"}>23, Oct 2021</Heading>
-        <Grid mt={"10px"} templateColumns="repeat(12, 1fr)">
+        <Grid mt={"0px"} templateColumns="repeat(12, 1fr)">
           {meals.map((meal, key) => (
             <GridItem colSpan={3}>
               <Meal

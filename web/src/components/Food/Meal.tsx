@@ -13,7 +13,7 @@ interface Props {
 
 export const Meal: React.FC<Props> = ({ meal, time, recipes, showRecipe }) => {
   return (
-    <Box m={"15px"} p={"15px"} rounded={7}>
+    <Box m={"15px"} mt={"0px"} p={"15px"} rounded={7}>
       <Heading>{meal}</Heading>
       <Text>arround {time}</Text>
       <Box>
