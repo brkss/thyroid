@@ -11,6 +11,7 @@ import { ApolloLink, Observable } from "apollo-link";
 import { getAccessToken, SetAccessToken } from "./helpers/constants/token";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
 import jwtDecode from "jwt-decode";
+import "./assets/main.css";
 
 const cache = new InMemoryCache({});
 

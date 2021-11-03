@@ -8,7 +8,10 @@ export const RecipeType: React.FC = () => {
     <Box>
       <Text fontWeight={"bold"}>Type</Text>
       <Box mt={"5px"}>
-        <ul style={{ whiteSpace: "nowrap", overflow: "scrolt" }}>
+        <ul
+          className={"options"}
+          style={{ whiteSpace: "nowrap", overflow: "scroll" }}
+        >
           {types.map((type, key) => (
             <li
               key={key}
