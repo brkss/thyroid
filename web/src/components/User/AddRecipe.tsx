@@ -8,6 +8,7 @@ import {
   FormControl,
 } from "@chakra-ui/react";
 import { RecipeType, RecipeTime } from "./AddRecipeComponents";
+import { AddIcon } from "@chakra-ui/icons";
 
 export const AddRecipe: React.FC = () => {
   return (
@@ -22,6 +23,11 @@ export const AddRecipe: React.FC = () => {
         <RecipeType />
         <br />
         <RecipeTime />
+        <br />
+        <br />
+        <Button minW={"100px"}>
+          <AddIcon fontSize={"14px"} mr={"5px"} /> Add
+        </Button>
       </Box>
     </Box>
   );

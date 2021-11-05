@@ -6,7 +6,7 @@ const times = ["Breakfast", "Lunch", "Dinner", "Snack"];
 export const RecipeTime: React.FC = () => {
   return (
     <Box>
-      <Text fontWeight={"bold"}>Type</Text>
+      <Text fontWeight={"bold"}>Time</Text>
       <Box mt={"5px"}>
         <ul
           className={"options"}
