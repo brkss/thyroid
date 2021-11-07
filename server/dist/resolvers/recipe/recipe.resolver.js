@@ -20,12 +20,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecipeResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const recipe_ingredient_parser_v3_1 = require("recipe-ingredient-parser-v3");
 const entity_1 = require("../../entity");
 const default_response_1 = require("../../helpers/responses/default.response");
+const axios_1 = __importDefault(require("axios"));
+const api_1 = require("../../helpers/config/api");
 const recipeScraper = require("recipe-scraper");
 let RecipeResolver = class RecipeResolver {
     recipes() {
@@ -45,7 +50,6 @@ let RecipeResolver = class RecipeResolver {
                 };
             try {
                 const recipe_raw = yield recipeScraper(url);
-                console.log("scrapped recipe => ", recipe_raw);
                 const recipe = new entity_1.Recipe();
                 recipe.title = recipe_raw.name;
                 recipe.description = recipe_raw.description;
@@ -57,6 +61,14 @@ let RecipeResolver = class RecipeResolver {
                 recipe.image = recipe_raw.image;
                 recipe.url = url;
                 yield recipe.save();
+                const res = yield axios_1.default.post(api_1.API_URI, {
+                    title: recipe_raw.name,
+                    ingr: recipe_raw.ingrdients,
+                });
+                console.log("================");
+                console.log("Recipe Nutriotion !");
+                console.log(res.data);
+                console.log("==============");
                 for (let ing of recipe_raw.ingredients) {
                     const ingredient = new entity_1.Ingredient();
                     const parsed = recipe_ingredient_parser_v3_1.parse(ing, "eng");

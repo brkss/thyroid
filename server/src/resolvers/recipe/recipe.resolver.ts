@@ -2,7 +2,8 @@ import { Resolver, Query, Arg, Mutation } from "type-graphql";
 import { parse } from "recipe-ingredient-parser-v3";
 import { Recipe, Ingredient, Instruction } from "../../entity";
 import { DefaultResponse } from "../../helpers/responses/default.response";
-import { Axios } from "axios";
+import axios from "axios";
+import { API_URI } from "../../helpers/config/api";
 const recipeScraper = require("recipe-scraper");
 
 @Resolver()
@@ -24,7 +25,7 @@ export class RecipeResolver {
       };
     try {
       const recipe_raw = await recipeScraper(url);
-      console.log("scrapped recipe => ", recipe_raw);
+      //console.log("scrapped recipe => ", recipe_raw);
       const recipe = new Recipe();
       recipe.title = recipe_raw.name;
       recipe.description = recipe_raw.description;
@@ -37,6 +38,14 @@ export class RecipeResolver {
       recipe.url = url;
       await recipe.save();
       // get recipe nutrition !
+      const res = await axios.post(API_URI, {
+        title: recipe_raw.name,
+        ingr: recipe_raw.ingrdients,
+      });
+      console.log("================");
+      console.log("Recipe Nutriotion !");
+      console.log(res.data);
+      console.log("==============");
 
       // add ingrdients
       for (let ing of recipe_raw.ingredients) {
