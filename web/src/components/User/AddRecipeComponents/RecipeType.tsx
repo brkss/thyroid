@@ -10,18 +10,15 @@ export const RecipeType: React.FC = () => {
     if (!selected.includes(type)) {
       selected.push(type);
       SetSelected(selected);
+      console.log("select element !");
     } else {
       const index = selected.findIndex((x) => x == type);
       const tmp = selected;
       tmp.splice(index, 1);
       SetSelected(tmp);
+      console.log("unselect element !");
     }
   };
-  const is_selected = (type: string) => {
-    if (selected.includes(type)) return true;
-    return false;
-  };
-
   return (
     <Box>
       <Text fontWeight={"bold"}>Type</Text>
@@ -37,10 +34,15 @@ export const RecipeType: React.FC = () => {
               style={{
                 display: "inline-block",
                 marginRight: "15px",
-                background: is_selected(type) ? "red" : "",
+                cursor: "pointer",
               }}
             >
-              <Center bg={"#EDEBEB"} rounded={7} p={"10px"} minW={"150px"}>
+              <Center
+                bg={selected.includes(type) ? "green" : "#EDEBEB"}
+                rounded={7}
+                p={"10px"}
+                minW={"150px"}
+              >
                 <Text fontWeight={"bold"}>{type}</Text>
               </Center>
             </li>
